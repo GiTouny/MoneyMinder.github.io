@@ -1,0 +1,348 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block main %}
+    <main class="dashboard">
+        <h1>Dashboard</h1>
+
+        <div class="date">
+            <div class="category">
+                <form action="/index_filter" method="post" class="top">
+                    <select name="month" required>
+                        <option value="" disabled selected>Select month</option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <select name="year" required>
+                        <option value="" disabled selected>Select year</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                    </select>
+                    <input type="submit" value="Filter">
+                </form>
+            </div>
+        </div>
+
+        <div class="insights">
+
+            <div class="incomes">
+                <span class="material-icons-sharp">analytics</span>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Total Incomes</h3>
+                        <h1>{{ total_incomes }}</h1> <!-- Replace this by actual data-->
+                    </div>
+                    <div class="progress-1">
+                        <style>
+                            main .insights .incomes .progress-1 svg circle:nth-child(2) {
+                                stroke-dashoffset: calc(440 - (225 * {{ total_incomes_planning }}) / 100);
+                                stroke: var(--color-primary)
+                            }
+                        </style>
+                        <svg>
+                            <circle cx='38' cy='38' r='36'></circle>
+                            <circle cx='38' cy='38' r='36'></circle>
+                        </svg>
+                        <div class="number">
+                            <p>{{ total_incomes_planning }}%</p> <!-- Replace actual data-->
+                        </div>
+                    </div>
+                </div>
+
+                <small class="text-muted">{{ time }}</small>
+            </div>
+            <!-----------------------------END OF INCOME-------------------------------->
+            <div class="expenses">
+                <span class="material-icons-sharp">bar_chart</span>
+
+                <div class="middle">
+                    <div class="left">
+                        <h3>Total Expenses</h3>
+                        <h1>{{ total_expenses }}</h1> <!-- Replace this by actual data-->
+                    </div>
+                    <div class="progress-1">
+                        <style>
+                            main .insights .expenses .progress-1 svg circle:nth-child(2) {
+                                stroke-dashoffset: calc(440 - (225 * {{ total_expenses_planning }}) / 100);
+                                stroke: var(--color-primary)
+                            }
+                        </style>
+                        <svg>
+                            <circle cx='38' cy='38' r='36'></circle>
+                            <circle cx='38' cy='38' r='36'></circle>
+                        </svg>
+                        <div class="number">
+                            <p>{{ total_expenses_planning }}%</p> <!-- Replace actual data-->
+                        </div>
+                    </div>
+                </div>
+
+                <small class="text-muted">{{ time }}</small>
+            </div>
+            <!-----------------------------END OF EXPENSES-------------------------------->
+                <div class="savings">
+                    <span class="material-icons-sharp">stacked_line_chart</span>
+
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Total Savings</h3>
+                            <h1>{{ total_savings }}</h1> <!--TODO-->
+                        </div>
+                        <div class="progress-1">
+                            <style>
+                                main .insights .savings .progress-1 svg circle:nth-child(2) {
+                                    stroke-dashoffset: calc(440 - (225 * {{ total_savings_planning }}) / 100);
+                                    stroke: var(--color-primary)
+                                }
+                            </style>
+                            <svg>
+                                <circle cx='38' cy='38' r='36'></circle>
+                                <circle cx='38' cy='38' r='36'></circle>
+                            </svg>
+                            <div class="number">
+                                <p>{{ total_savings_planning }}%</p> <!--TODO-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <small class="text-muted">{{ time }}</small>
+                </div>
+            <!-----------------------------END OF SAVINGS-------------------------------->
+        </div>
+    <!-----------------------------END OF INSIGHTS-------------------------------->
+        <div class="graph">
+            <div class="graph-1">
+                <h2>Yearly Overview</h2>
+                <canvas id="yearly"></canvas>
+                  <script>
+                    var color = getComputedStyle(document.documentElement).getPropertyValue('--color-white');
+                    const ctx = document.getElementById('yearly');
+                    new Chart(ctx, {
+                      type: 'bar',
+                      data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        datasets: [
+                            {
+                          label: 'Incomes',
+                          data: [
+                            {% for income in chart_incomes %}
+                                {% if income.month == "01" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "02" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "03" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "04" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "05" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "06" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "07" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "08" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "09" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "10" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "11" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "12" %}{{ income.total_amount }}{% else %}0{% endif %},
+                            {% endfor %}
+                          ],
+                          backgroundColor: '#41f1b6',
+                          borderWidth: 2,
+                          borderColor: 'white',
+                        },
+                        {
+                            label: 'Expenses',
+                            data: [
+                            {% for income in chart_expenses %}
+                                {% if income.month == "01" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "02" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "03" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "04" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "05" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "06" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "07" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "08" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "09" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "10" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "11" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "12" %}{{ income.total_amount }}{% else %}0{% endif %},
+                            {% endfor %}
+                            ],
+                            backgroundColor: '#ff7782',
+                            borderWidth: 2,
+                            borderColor: 'white',
+                        },
+                        {
+                            label: 'Savings',
+                            data: [
+                            {% for income in chart_savings %}
+                                {% if income.month == "01" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "02" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "03" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "04" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "05" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "06" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "07" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "08" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "09" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "10" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "11" %}{{ income.total_amount }}{% else %}0{% endif %},
+                                {% if income.month == "12" %}{{ income.total_amount }}{% else %}0{% endif %},
+                            {% endfor %}
+                            ],
+                            backgroundColor: '#7380ec',
+                            borderWidth: 2,
+                            borderColor: 'white',
+                        }
+                    ]
+                      },
+                      options: {
+                        responsive: true,
+                        scales: {
+                          y: {
+                            beginAtZero: true,
+                          }
+                        }
+                      }
+                    });
+                  </script>
+            </div>
+
+            <div class="graph-2">
+                <h2>Spending Overview</h2>
+                <canvas id="type" style="width: 100%;"></canvas>
+                <script>
+                  const ctx2 = document.getElementById('type');
+                  new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                      labels: {{ labels|tojson|safe }},
+                      datasets: [{
+                        data: {{ data|tojson|safe }}
+                      }]
+                    },
+                    options: {
+                        responsive: false,
+                        legend: {
+                            display: false,
+                        }
+                      }
+                    });
+                </script>
+            </div>
+        </div>
+    </main>
+    <!-----------------------------END OF MAIN-------------------------------->
+    <div class="right dashboard">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="theme-toggler">
+                <span class="material-icons-sharp active">light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hey, <b>Touny</b></p> <!--TODO-->
+                    <small class="text-muted">Admin</small>
+                </div>
+                <div class="profile-photo">
+                    <img src ="{{ url_for('static', filename='images/user.png') }}" alt="TODO"> <!--TODO-->
+                </div>
+            </div>
+        </div>
+        <!-------------------------------END OF TOP------------------------------>
+
+        <div class="recent-updates">
+            <h2>Recent Updates</h2>
+            <div class="updates">
+                {% for recent in recents %}
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img src="{{ url_for('static', filename='images/user.png') }}" alt="TODO"> <!--TODO-->
+                        </div>
+                        <div class="message">
+                            {% if recent.types == 'incomes' %}
+                                <p><b>You</b> have just gained {{ recent.amount }} for {{ recent.category_name }}.</p>
+                                <small class="text-muted">{{ recent.date }}</small>
+                            {% elif recent.types == 'expenses' %}
+                                <p><b>You</b> have just paid {{ recent.amount }} for {{ recent.category_name }}.</p>
+                                <small class="text-muted">{{ recent.date }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-------------------------------END OF RECENT------------------------------>
+
+        <div class="flip-card" onclick="toggleFlip(this)">
+            <h2>Your Wallet</h2>
+            <div class="flip-card-inner">
+                <div class="front">
+                    <div class="icon">
+                        <span class="material-icons-sharp">account_balance_wallet</span>
+                    </div>
+                    <h3>Checking Account</h3>
+                    <h1>{{ checking }}</h1>
+                </div>
+                <div class="back">
+                    <div class="icon">
+                        <span class="material-icons-sharp">savings</span>
+                    </div>
+                    <h3>Savings Account</h3>
+                    <h1>{{ savings_all_time }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleFlip(card) {
+                card.classList.toggle('flip-hovered');
+            }
+        </script>
+
+        <!-------------------------------END OF FLIP_CARD------------------------------>
+        <div class="subscription">
+            <h2>Your Subscriptions</h2>
+            {% for subscription in subscriptions %}
+                <div class="item">
+                    <div class="icon">
+                        <span class="material-icons-sharp">subscriptions</span> <!--TODO (REPLACE MY USER's IMAGE)-->
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <h3>{{ subscription.name }}</h3>
+                            <small class="text-muted">Billed {{ subscription.interval }}</small>
+                        </div>
+                        <h3>{{ subscription.amount }}</h3>
+                        <h3 class="warning">{{ subscription.next_due }}</h3>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="detail">
+                <h3><a href="/subscriptions">Show All</a></h3>
+            </div>
+        </div>
+
+    </div>
+    <script src="{{ url_for('static', filename='layout.js') }}"></script>
+{% endblock %}
+
+
+

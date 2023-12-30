@@ -1,0 +1,278 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Planning
+{% endblock %}
+
+
+{% block main %}
+<!---------------------------------- MAIN ---------------------------------->
+    <main>
+        <h1>Money Tracking</h1>
+        <div class="grid">
+            <div class="date">
+                <form action="/update_filter" method="post" class="top">
+                    <input type="date" name="date_filter">
+                    <input type="submit" value="Filter">
+                </form>
+            </div>
+            <div class="category">
+                <form action="/add_category" method="post" class="top">
+                    <input autofocus type="text" required name="name" placeholder="Type your categories">
+                    <input type="submit" name="action" value="Add Category">
+                    <input type="submit" class="warning" name="action" value="Delete Category">
+                    <p class="error">{{ error }}</p>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="recent-transactions">
+            <h2>Recent Transactions</h2>
+            <div class="table-padding">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Transactions Type</th>
+                            <th>Account</th>
+                            <th>Categories</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                        <tr>
+                            <td>{{ transaction.name }}</td>
+
+                            {% if transaction.types == "incomes" %}
+                                <td class="success">{{ transaction.types }}</td>
+                            {% elif transaction.types == "expenses" %}
+                                <td class="danger">{{ transaction.types }}</td>
+                            {% else %}
+                                <td>{{ transaction.types }}</td>
+                            {% endif %}
+
+                            {% if transaction.account == "checking" %}
+                                <td class="success">{{ transaction.account }}</td>
+                            {% elif transaction.account == "savings" %}
+                                <td class="primary">{{ transaction.account }}</td>
+                            {% endif %}
+                            <td>{{ transaction.category_name }}</td>
+                            <td>{{ transaction.amount }}</td>
+                            <td>{{ transaction.date }}</td>
+                            <td>
+                                <form action="/delete_transactions" method="post">
+                                    <input type="hidden" name="transactions_id" value="{{ transaction.id }}">
+                                    <button class="danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses }}</td>
+                        </tr>
+                        <tr>
+                            <td>Balance:</td>
+                            <td id="totalExpenses">{{ balance }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="recent-transactions transfer">
+            <h2>Recent Transfers</h2>
+            <div class="table-padding">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transfer in transfers %}
+                            <tr>
+                                {% if transfer.from_ == "checking" %}
+                                    <td class="success">{{ transfer.from_ }}</td>
+                                {% elif transfer.from_ == "savings" %}
+                                    <td class="primary">{{ transfer.from_ }}</td>
+                                {% endif %}
+
+                                {% if transfer.to_ == "checking" %}
+                                    <td class="success">{{ transfer.to_ }}</td>
+                                {% elif transfer.to_ == "savings" %}
+                                    <td class="primary">{{ transfer.to_ }}</td>
+                                {% endif %}
+
+                                <td>{{ transfer.amount }}</td>
+                                <td>{{ transfer.date }}</td>
+                                <td>
+                                    <form action="/delete_transfers" method="post">
+                                        <input type="hidden" name="transfers_id" value="{{ transfer.id }}">
+                                        <button class="danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </main>
+
+
+<!---------------------------------- END OF MAIN ---------------------------------->
+
+
+
+<!---------------------------------- TOP BAR ---------------------------------->
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="theme-toggler">
+                <span class="material-icons-sharp active">light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hey, <b>Touny</b></p> <!--TODO-->
+                    <small class="text-muted">Admin</small>
+                </div>
+                <div class="profile-photo">
+                    <img src ="{{ url_for('static', filename='images/user.png') }}" alt="TODO"> <!--TODO-->
+                </div>
+            </div>
+        </div>
+
+<!---------------------------------- END OF TOP BAR ---------------------------------->
+
+
+<!---------------------------------- TRACKING FORM ---------------------------------->
+        <div class="tracking-form">
+            <h2>Input Form</h2>
+            <div class="tracking-form-inner">
+
+                <form action="/update_input_form" method="post">
+                    <div class="name">
+                        <label>Name</label>
+                        <input autofocus required autocomplete="off" name="name" placeholder="Transaction name" type="text">
+                    </div>
+
+                    <div class="type">
+                        <label>Transactions Type</label>
+                        <select name="financial-transactions" required>
+                            <option value="" disabled selected>Incomes/Expenses</option>
+                            <option value="incomes">Incomes</option>
+                            <option value="expenses">Expenses</option>
+                            <option value="subscriptions" disabled>Subscriptions</option>
+                        </select>
+                    </div>
+
+                    <div class="type">
+                        <label>Account</label>
+                        <select name="account" required>
+                            <option value="" disabled selected>Select an account</option>
+                            <option value="checking">Checking</option>
+                            <option value="savings">Savings</option>
+                        </select>
+                    </div>
+
+                    <div class="date">
+                        <label>Date</label>
+                        <input required autofocus autocomplete="off" name ="date" placeholder="Transaction name" type="date">
+                    </div>
+
+                    <div class="categories">
+                        <label>Categories</label>
+                        <select name="categories" required>
+                            <option value="" disabled selected>Select the category</option>
+                            {% for category in category_list %}
+                                <option>{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="amount">
+                        <label>Amount</label>
+                        <input autofocus required autocomplete="off" name="amount" placeholder="Amount" type="number">
+                    </div>
+
+                    <div class="form-submit">
+                        <button class="btn-form" type="submit">Submit</button>
+                    </div>
+                </form>
+                <p class="danger">{{ error }}</p>
+            </div>
+        </div>
+
+
+        <div class="tracking-form">
+            <h2>Transfer Money</h2>
+            <div class="tracking-form-inner">
+
+                <form action="/update_transfers_form" method="post">
+
+                    <div class="type">
+                        <label>From</label>
+                        <select name="from" required>
+                            <option value="" disabled selected>Select an account</option>
+                            <option value="checking">Checking</option>
+                            <option value="savings">Savings</option>
+                        </select>
+                    </div>
+
+                    <div class="type">
+                        <label>To</label>
+                        <select name="to" required>
+                            <option value="" disabled selected>Select an account</option>
+                            <option value="checking">Checking</option>
+                            <option value="savings">Savings</option>
+                        </select>
+                    </div>
+
+                    <div class="date" required>
+                        <label>Registration Date</label>
+                        <input autofocus autocomplete="off" name ="date" placeholder="Transaction name" type="date">
+                    </div>
+
+                    <div class="amount" required>
+                        <label>Amount</label>
+                        <input autofocus autocomplete="off" name ="amount" placeholder="Amount" type="number">
+                    </div>
+
+                    <div class="form-submit">
+                        <button class="btn-form" type="submit">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+<!---------------------------------- END OF TRACKING FORM ---------------------------------->
+        <script src="{{ url_for('static', filename='layout.js') }}"></script>
+    </div>
+
+{% endblock %}

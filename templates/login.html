@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block section %}
+<div class="container" id="logres">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="form text-center p-5">
+
+                <form action="/login" method="post">
+                    <h1 class="text-center mb-4">Login</h1>
+                    <p class="warning">{{ error }}</p>
+
+                    <div class="mb-3">
+                        <h6 class="text-center">EMAIL</h6>
+                        <input autocomplete="off" required autofocus class="form-control w-auto mx-auto" id="username" name="username" placeholder="example@email.com" type="text">
+                    </div>
+
+                    <div class="mb-3">
+                        <h6 class="text-center">PASSWORD</h6>
+                        <input required class="form-control w-auto mx-auto" id="password" name="password" placeholder="********" type="password">
+                    </div>
+
+                    <div class="text-center mb-3">
+                        <input type="submit" id="login" value="login" class="btn_log">
+                    </div>
+                    <p class="mb-4">Don't have an account? <a href="/register">Register!</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

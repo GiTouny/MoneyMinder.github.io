@@ -1,0 +1,802 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Planning
+{% endblock %}
+
+
+{% block main %}
+<main>
+    <h1>Planning</h1>
+
+    <div class="date">
+        <div class="category">
+            <form action="/planning_filter" method="post" class="top">
+                <select name="year">
+                    <option value="" disabled selected>Select year</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                </select>
+                <input type="submit" value="Filter">
+            </form>
+        </div>
+    </div>
+
+
+    <div class="planning">
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>January</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "January" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['January'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['January'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['January'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>February</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "February" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['February'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['February'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['February'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>March</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "March" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['March'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['March'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['March'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>April</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "April" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['April'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['April'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['April'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>May</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "May" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['May'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['May'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['May'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>June</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "June" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['June'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['June'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['June'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>July</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "July" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['July'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['July'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['July'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>August</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "August" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['August'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['August'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['August'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>September</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "September" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['September'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['September'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['September'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>October</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "October" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['October'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['October'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['October'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>November</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "November" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['November'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['November'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['November'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="recent-transactions">
+            <div class="table-padding">
+                <h2>December</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categories</th>
+                            <th>Types</th>
+                            <th>Year</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for planning in plannings %}
+                            {% if planning.year == selected_year and planning.month == "December" %}
+                                <tr>
+                                    <td>{{ planning.category_name }}</td>
+
+                                    {% if planning.types == "expenses" %}
+                                        <td class="danger">Expenses</td>
+                                    {% elif planning.types == "incomes" %}
+                                        <td class="success">Incomes</td>
+                                    {% elif planning.types == "savings" %}
+                                        <td class="primary">Savings</td>
+                                    {% endif %}
+                                    <td>{{ planning.year }}</td>
+                                    <td>{{ planning.amount }}</td>
+                                    <td>
+                                        <form action="/delete_planning" method="post">
+                                            <input type="hidden" name="planning_id" value="{{ planning.id }}">
+                                            <button class="danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total Incomes:</td>
+                            <td id="totalIncomes">{{ total_incomes['December'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses:</td>
+                            <td id="totalExpenses">{{ total_expenses['December'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Savings:</td>
+                            <td id="totalSavings">{{ total_savings['December'] }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="bottom"></div>
+</main>
+
+<div class="right">
+    <div class="top">
+        <button id="menu-btn">
+            <span class="material-icons-sharp">menu</span>
+        </button>
+        <div class="theme-toggler">
+            <span class="material-icons-sharp active">light_mode</span>
+            <span class="material-icons-sharp">dark_mode</span>
+        </div>
+        <div class="profile">
+            <div class="info">
+                <p>Hey, <b>Touny</b></p> <!--TODO-->
+                <small class="text-muted">Admin</small>
+            </div>
+            <div class="profile-photo">
+                <img src ="{{ url_for('static', filename='images/user.png') }}" alt="TODO"> <!--TODO-->
+            </div>
+        </div>
+    </div>
+    <div class="tracking-form">
+        <h2>Input Form</h2>
+        <div class="tracking-form-inner">
+
+            <form action="/planning_form" method="post">
+
+                <div class="categories">
+                    <label>Categories</label>
+                    <select name="categories" required>
+                        <option value="" disabled selected>Select the category</option>
+                        {% for category in category_list %}
+                            <option>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="type">
+                    <label>Planning Types</label>
+                    <select name="types" required>
+                        <option value="" disabled selected>Type</option>
+                        <option value="incomes">Incomes</option>
+                        <option value="expenses">Expenses</option>
+                        <option value="savings">Savings</option>
+                    </select>
+                </div>
+
+                <div class="month">
+                    <label>Month</label>
+                    <select name="month" required>
+                        <option value="" disabled selected>month</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                </div>
+
+                <div class="year">
+                    <label>Year</label>
+                    <select name="year" required>
+                        <option value="" disabled selected>year</option>
+                        <option>2023</option>
+                        <option>2024</option>
+                        <option>2025</option>
+                        <option>2026</option>
+                        <option>2027</option>
+                        <option>2028</option>
+                        <option>2029</option>
+                        <option>2030</option>
+                    </select>
+                </div>
+
+
+                <div class="amount">
+                    <label>Amount</label>
+                    <input autofocus required autocomplete="off" name ="amount" placeholder="Amount" type="number">
+                </div>
+
+                <div class="form-submit">
+                    <button class="btn-form" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='layout.js') }}"></script>
+</div>
+{% endblock %}

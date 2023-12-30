@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Subscriptions
+{% endblock %}
+
+
+{% block main %}
+    <main>
+        <h1>Subscriptions</h1>
+        <div class="subscriptions-grid">
+            {% for subscription in subscriptions %}
+                <div class="subscriptions-card">
+                    <div class="card-photo" id="drop-zone">
+                        <span class="drop-zone-prompt">Drop to upload image</span>
+                        <input type="file" name="myfile" id="file_input" class="drop-zone-input">
+                    </div>
+                    <div class="title-card">
+                        <h2>{{ subscription.name }}</h2>
+                    </div>
+                    <div class="cost">
+                        <h4>Cost: {{ subscription.amount }}</h4>
+                    </div>
+                    <div class="interval">
+                        <h4>Interval: {{subscription.interval }}</h4>
+                    </div>
+                    <div class="next-due">
+                        <h4>Next due: <span class="warning">{{ subscription.next_due }}</span></h4>
+                    </div>
+                    <div class="button-card">
+                        <form action="/delete_subscriptions" method="post">
+                            <input type="hidden" name="subscriptions_id" value="{{ subscription.id }}">
+                            <button>Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="theme-toggler">
+                <span class="material-icons-sharp active">light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hey, <b>Touny</b></p> <!--TODO-->
+                    <small class="text-muted">Admin</small>
+                </div>
+                <div class="profile-photo">
+                    <img src ="{{ url_for('static', filename='images/user.png') }}" alt="TODO"> <!--TODO-->
+                </div>
+            </div>
+        </div>
+        <div class="tracking-form">
+            <h2>Input Form</h2>
+            <div class="tracking-form-inner">
+
+                <form action="/subscriptions_input_form" method="post">
+                    <div class="name">
+                        <label>Name</label>
+                        <input autofocus required autocomplete="off" name ="name" placeholder="Transaction name" type="text">
+                    </div>
+
+                    <div class="type">
+                        <label>Account</label>
+                        <select name="account" required>
+                            <option value="" disabled selected>Select an account</option>
+                            <option value="checking">Checking</option>
+                            <option value="savings">Savings</option>
+                        </select>
+                    </div>
+
+                    <div class="date">
+                        <label>Registration Date</label>
+                        <input autofocus required autocomplete="off" name ="date" placeholder="Transaction name" type="date">
+                    </div>
+
+                    <div class="type">
+                        <label>Subscriptions Plan</label>
+                        <select name="interval" required>
+                            <option value="" disabled selected>Select plan</option>
+                            <option value="weekly">Billed weekly</option>
+                            <option value="monthly">Billed monthly</option>
+                            <option value="quarterly">Billed quarterly</option>
+                            <option value="half_yearly">Billed half-yearly</option>
+                            <option value="annually">Billed annually</option>
+                        </select>
+                    </div>
+
+                    <div class="categories">
+                        <label>Categories</label>
+                        <select name="categories" required>
+                            <option value="" disabled selected>Select the category</option>
+                            {% for category in category_list %}
+                                <option> {{ category.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="amount">
+                        <label>Amount</label>
+                        <input autofocus required autocomplete="off" name ="amount" placeholder="Amount" type="number">
+                    </div>
+
+                    <div class="form-submit">
+                        <button class="btn-form" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='layout.js') }}"></script>
+    </div>
+
+{% endblock %}

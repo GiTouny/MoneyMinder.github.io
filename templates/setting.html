@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Planning
+{% endblock %}
+
+
+{% block main %}
+    <main>
+        <h1>Budget Planning</h1>
+    </main>
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="theme-toggler">
+                <span class="material-icons-sharp active">light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile">
+                <div class="info">
+                    <p>Hey, <b>Touny</b></p> <!--TODO-->
+                    <small class="text-muted">Admin</small>
+                </div>
+                <div class="profile-photo">
+                    <img src ="/static" alt="TODO"> <!--TODO-->
+                </div>
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='layout.js') }}"></script>
+    </div>
+{% endblock %}

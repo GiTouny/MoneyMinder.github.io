@@ -762,7 +762,7 @@ def delete_transactions():
     con, cur = database()
     con.row_factory = sqlite3.Row
     cur = con.cursor()
-    cur.execute("DELETE FROM transactions WHERE id = ? AND user_id = ?", id, session["user_id"],)
+    cur.execute("DELETE FROM transactions WHERE id = ? AND user_id = ?", (id, session["user_id"],))
     con.commit()
     con.close()
     return redirect("/update")
@@ -774,7 +774,7 @@ def delete_transfers():
     con, cur = database()
     con.row_factory = sqlite3.Row
     cur = con.cursor()
-    cur.execute("DELETE FROM transfers WHERE id = ? AND user_id = ?", id, session["user_id"],)
+    cur.execute("DELETE FROM transfers WHERE id = ? AND user_id = ?", (id, session["user_id"],))
     con.commit()
     con.close()
     return redirect("/update")
@@ -1108,11 +1108,11 @@ def login():
         con, cur = database()
         con.row_factory = sqlite3.Row
         cur = con.cursor()
-        rows = cur.execute("SELECT * FROM users WHERE username = ?", (request.form.get("username"))).fetchall()
-        con.close
+        rows = cur.execute("SELECT * FROM users WHERE username = ?", (request.form.get("username"),)).fetchall()
+        con.close()
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return render_template("update.html", error="invalid username and/or password")
+            return render_template("login.html", error="invalid username and/or password")
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]

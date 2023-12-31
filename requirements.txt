@@ -1,8 +1,7 @@
-Flask==2.1.0
-Flask-Session==0.4.0
-Werkzeug==2.1.0
-python-dotenv==0.19.2
-gunicorn==19.7.1
+flask
+flask_session
 requests
 datetime
+Werkzeug
 python-dateutil
+gunicorn

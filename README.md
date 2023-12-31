@@ -3,6 +3,9 @@
 ### Description:
 MoneyMinder is a personal budget application that helps you manage your money flows. With MoneyMinder, you can create your own financial goals, automatically update your recurring expenses, and easily navigate your capital flows. Ultimately, the app can generate those data into meaningful, intuitive graphs to give you insights about your spending and gaining.
 
+### Deployment:
+https://moneyminder-wobx.onrender.com
+
 ### Technologies:
 1. Python
 2. Flask
@@ -12,7 +15,6 @@ MoneyMinder is a personal budget application that helps you manage your money fl
 6. CSS
 7. Bootstrap 5
 8. Chart JS
-
 
 ### Feature:
 #### Login/Register

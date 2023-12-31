@@ -599,7 +599,7 @@ def add_category():
     cur = con.cursor()
 
     # Fetching category names
-    category_list = cur.execute("SELECT name FROM categories WHERE user_id = ?", (session["user_id"],)).fetchall()
+    category_list = cur.execute("SELECT name FROM categories WHERE user_id = ? AND is_deleted = ?", (session["user_id"], 0)).fetchall()
     category_names = [category['name'].lower() for category in category_list]
 
     if action == "Add Category":
